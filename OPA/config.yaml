@@ -6,7 +6,3 @@ caching:
 
 decision_logs:
   console: true
-
-// om de access-token als default mee te krijgen in opa
-management:
-  allow_insecure_headers: true
