@@ -41,6 +41,9 @@ builder.Services.AddBuildAuthorization(options =>
     options.PolicyPath = "/barmanagement/allow";
     options.AllowOnFailure = false;
     options.Timeout = 5;
+    
+// om de access-token als default mee te krijgen in opa
+    options.IncludeHeaders = true;
 });
 
 // Register your request enricher
@@ -55,7 +58,7 @@ app.UseCors(options => options
     .AllowAnyHeader());
 
 app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthorization();
 
 
 app.UseBuildAuthorization();
