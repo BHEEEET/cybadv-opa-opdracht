@@ -8,26 +8,25 @@ default allow := false
 jwt := io.jwt.decode(input.access_token)
 claims := jwt[1]  # Access the claims, which is the second array
 
-# Check if the JWT is valid
+# Check if the JWT is not empty
 valid_jwt := jwt != null
 
-
-# VALIDATION NOG
-# !!!!!!!!!!!
-# !!!!!!!!!!!!
-
 allow {
-    print("AHTAOIZERIDQFD")
+    print("Included Headers By Default")
     print(input.request.headers.Authorization)
 
     valid_jwt
     input.request.path == "/api/bar"
     input.request.method == "POST"
     input.request.body.DrinkName == "Beer"
-    to_number(claims.age) >= 16       # Check age condition
+
+    # Check age condition
+    to_number(claims.age) >= 16 
     
-    some i in claims.role  # Ensure claims has role
-    i == "customer"         # Check if any role in JWT is in the allowed roles for Beer
+    # Ensure claims has role, could be multiple roles thats why its a itteration
+    some i in claims.role  
+    # Check if any role in JWT is in the allowed roles for Beer
+    i == "customer"         
 }
 
 allow {
@@ -36,8 +35,8 @@ allow {
     input.request.method == "POST"
     input.request.body.DrinkName == "Fristi"
     
-    some i in claims.role  # Ensure claims has role
-    i == "customer"         # Check if any role in JWT is in the allowed roles for Fristi
+    some i in claims.role 
+    i == "customer"
 }
 
 allow {
@@ -45,6 +44,6 @@ allow {
     input.request.path == "/api/managebar"
     input.request.method == "POST"
     
-    some i in claims.role  # Ensure claims has role
-    i == "bartender"        # Check if any role in JWT is in the allowed roles for managebar
+    some i in claims.role  
+    i == "bartender" 
 }

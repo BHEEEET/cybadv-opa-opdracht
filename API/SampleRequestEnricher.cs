@@ -10,15 +10,15 @@ public class SampleRequestEnricher : IRequestEnricher
 {
     public Task EnrichRequestAsync(OpaQueryRequest request, HttpContext httpContext)
     {
-        //Haal de access token van de httpContext.Request
+        //PUll the access-token from httpContext.Request
         var authHeader = httpContext.Request.Headers["Authorization"].ToString();
 
         if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
         {
-            //Trim "Bearer" van de access token
+            //Trim "Bearer" from the access token
             var token = authHeader.Substring("Bearer ".Length).Trim();
 
-            //Voeg access token in de enriched request
+            //Add access-token in the enriched request
             request.Input.Enriched["access_token"] = token;
         }
         else
@@ -26,7 +26,6 @@ public class SampleRequestEnricher : IRequestEnricher
             // Set access_token to null if not available
             request.Input.Enriched["access_token"] = null;
         }
-
         return Task.CompletedTask;
     }
 }

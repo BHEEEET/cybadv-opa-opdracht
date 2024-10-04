@@ -13,7 +13,6 @@ var jwtAudience = builder.Configuration["Jwt:Audience"];
 var corsOrigin = builder.Configuration["Cors:Origin"];
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(options =>
 {
@@ -41,8 +40,7 @@ builder.Services.AddBuildAuthorization(options =>
     options.PolicyPath = "/barmanagement/allow";
     options.AllowOnFailure = false;
     options.Timeout = 5;
-    
-// om de access-token als default mee te krijgen in opa
+// Option to give the headers by default in the requests
     options.IncludeHeaders = true;
 });
 
@@ -58,11 +56,10 @@ app.UseCors(options => options
     .AllowAnyHeader());
 
 app.UseAuthentication();
+
 // app.UseAuthorization();
-
-
+//use the OPA authorization
 app.UseBuildAuthorization();
 
 app.MapControllers();
-
 app.Run();
